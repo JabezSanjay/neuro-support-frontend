@@ -1,8 +1,31 @@
-import React from "react";
-import AppSideNavbar from "../../Components/AppSideBar/AppSidebar";
-import Navbar from "../../Components/Navbar/Navbar";
+import React, { useEffect } from 'react'
+import AppSideNavbar from '../../Components/AppSideBar/AppSidebar'
+import Navbar from '../../Components/Navbar/Navbar'
+import { connectingSocket } from '../../socket'
 
 function ChatwithMentor() {
+  const [message, setMessage] = useState('')
+  useEffect(() => {
+    connectingSocket({
+      _id: '62a4874f5313501ba7786f70',
+      name: 'D',
+      email: 's@gmail.com',
+      role: 'student',
+      socketId: '9c332e51-14ab-4476-bcdd-942459eb471d',
+      mentorsId: [],
+      studentsId: [],
+      createdAt: '2022-06-11T12:15:11.946Z',
+      __v: 0,
+    })
+  }, [])
+
+  const onMessageChange = (msg) => {
+    setMessage(msg)
+  }
+  const onSubmitHandler = (msg) => {
+    console.log(message)
+  }
+
   return (
     <div>
       <AppSideNavbar>
@@ -38,7 +61,12 @@ function ChatwithMentor() {
               <ul className="overflow-auto h-[32rem]">
                 <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
                 <li>
-                  <a className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
+                  <a
+                    onClick={() => {
+                      console.log('sldkjfie ')
+                    }}
+                    className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
+                  >
                     <img
                       className="object-cover w-10 h-10 rounded-full"
                       src="https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg"
@@ -116,16 +144,6 @@ function ChatwithMentor() {
                 </div>
                 <div className="relative w-full p-6 overflow-y-auto h-[40rem]">
                   <ul className="space-y-2">
-                    <li className="flex justify-start">
-                      <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                        <span className="block">Hi</span>
-                      </div>
-                    </li>
-                    <li className="flex justify-end">
-                      <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                        <span className="block">Hiiii</span>
-                      </div>
-                    </li>
                     <li className="flex justify-end">
                       <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
                         <span className="block">how are you?</span>
@@ -182,6 +200,7 @@ function ChatwithMentor() {
                     className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
                     name="message"
                     required
+                    onChange={onMessageChange}
                   />
                   {/* <button>
                     <svg
@@ -199,7 +218,12 @@ function ChatwithMentor() {
                       />
                     </svg>
                   </button> */}
-                  <button type="submit">
+                  <button
+                    type="submit"
+                    onSubmit={() => {
+                      onSubmitHandler()
+                    }}
+                  >
                     <svg
                       className="w-5 h-5 text-gray-500 origin-center transform rotate-90"
                       xmlns="http://www.w3.org/2000/svg"
@@ -216,7 +240,7 @@ function ChatwithMentor() {
         </div>
       </AppSideNavbar>
     </div>
-  );
+  )
 }
 
-export default ChatwithMentor;
+export default ChatwithMentor
