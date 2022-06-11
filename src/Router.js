@@ -1,19 +1,11 @@
-import React from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-  Outlet,
-} from 'react-router-dom';
-import Admin from './Pages/Admin/User';
-import ChatwithMentor from './Pages/Common/ChatwithMentor';
-import TicketTracking from './Pages/Common/TrackingTicket';
-import Signin from './Pages/Signin/Signin';
-import Signup from './Pages/Signup/Signup';
-import { ToastContainer } from 'react-toastify';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Tickets from "./Pages/Admin/Tickets";
+import Admin from "./Pages/Admin/User";
+import ChatwithMentor from "./Pages/Common/ChatwithMentor";
+import TicketTracking from "./Pages/Common/TrackingTicket";
+import Signin from "./Pages/Signin/Signin";
+import Signup from "./Pages/Signup/Signup";
 
 function Router() {
   return (

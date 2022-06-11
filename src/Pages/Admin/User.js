@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import AppSideBar from "../../Components/AppSideBar/AppSidebar";
+import AppAdminTable from "../../Components/AppAdminTable/AppAdminTable";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import { Password } from "primereact/password";
 import { Dropdown } from "primereact/dropdown";
 import { useForm } from "react-hook-form";
 
@@ -28,7 +28,7 @@ function Admin() {
     console.log(data);
     setModalOpen(false);
   };
-  console.log(watch("username"));
+  console.log(watch("role"));
 
   return (
     <div>
@@ -101,16 +101,17 @@ function Admin() {
                   Role
                 </label>
                 <Dropdown
-                  value={selectedDomain}
+                  value={watch("role")}
+                  optionValue="value"
                   className="w-full"
                   options={domain}
+                  onChange={(e) => {
+                    setSelectedDomain(e.target.value);
+                    console.log(e.target.value);
+                  }}
                   {...register("role", {
                     required: "Role is required",
                   })}
-                  onChange={(e) => {
-                    setSelectedDomain(e.target.value);
-                    console.log(selectedDomain);
-                  }}
                   optionLabel="name"
                   placeholder="Select a role"
                 />
@@ -128,6 +129,7 @@ function Admin() {
               </div>
             </form>
           </Dialog>
+          <AppAdminTable />
         </div>
       </AppSideBar>
     </div>
