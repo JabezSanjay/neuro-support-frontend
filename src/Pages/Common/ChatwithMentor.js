@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import AppSideNavbar from '../../Components/AppSideBar/AppSidebar'
 import Navbar from '../../Components/Navbar/Navbar'
-import { connectingSocket } from '../../socket'
+import socket, { connectingSocket } from '../../socket'
 
 function ChatwithMentor() {
   const [message, setMessage] = useState('')
@@ -22,8 +22,20 @@ function ChatwithMentor() {
   const onMessageChange = (msg) => {
     setMessage(msg)
   }
+  // {
+  //           "_id": "62a4874f5313501ba7786f70",
+  //           "name": "D",
+  //           "email": "s@gmail.com",
+  //           "role": "student",
+  //           "socketId": "9c332e51-14ab-4476-bcdd-942459eb471d",
+  //           "mentorsId": [],
+  //           "studentsId": [],
+  //           "createdAt": "2022-06-11T12:15:11.946Z",
+  //           "__v": 0
+  //       }
   const onSubmitHandler = (msg) => {
     console.log(message)
+    socket.on('private-message', () => {})
   }
 
   return (
