@@ -8,16 +8,26 @@ import { toast } from 'react-toastify'
 import { signinUser } from './helper'
 import { connectingSocket } from '../../socket'
 
+
 const Signin = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm()
-  const dispatch = useDispatch()
-  const loading = useSelector((state) => state.auth.loading)
-  const navigate = useNavigate()
+    watch
+  } = useForm();
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.auth.loading);
+  const navigate = useNavigate();
+
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    axios.get('/read/courses').then((res) => {
+      setCourses(res.data);
+    });
+  }, []);
 
   const onSubmit = async (data) => {
     await signinUser(data, dispatch).then((response) => {
@@ -123,7 +133,8 @@ const Signin = () => {
                           {errors.password?.message}
                         </p>
                       </div>
-                      <div className="mt-4 mb-2 sm:mb-4">
+
+                      <div className='mt-4 mb-2 sm:mb-4'>
                         <Button
                           style={{ width: '100%' }}
                           type="submit"
@@ -134,7 +145,7 @@ const Signin = () => {
                       </div>
                       <p className="text-xs text-gray-600 sm:text-sm">
                         Dont have an account?
-                        <Link className="text-blue-700" to="/signin">
+                        <Link className='text-blue-700' to='/signup'>
                           Sign Up
                         </Link>
                       </p>

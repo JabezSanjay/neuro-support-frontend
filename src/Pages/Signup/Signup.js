@@ -6,17 +6,31 @@ import { Button } from 'primereact/button';
 import { signupUser } from './helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { MultiSelect } from 'primereact/multiselect';
 
 const Signup = () => {
   const navigate = useNavigate();
   const loading = useSelector((state) => state.auth.loading);
   const dispatch = useDispatch();
 
+  const courses = [
+    {
+      label: 'Web Development',
+    },
+    {
+      label: 'Mobile Development',
+    },
+    {
+      label: 'Data Science',
+    },
+  ];
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -75,7 +89,7 @@ const Signup = () => {
                         style={{ fontSize: '15px' }}
                         className='mt-1 text-red-400'
                       >
-                        {errors.username?.message}
+                        {errors.name?.message}
                       </p>
                     </div>
                   </div>
@@ -120,6 +134,28 @@ const Signup = () => {
                       </p>
                     </div>
                   </div>
+                  <div className='mb-1 sm:mb-3'>
+                    <label htmlFor='username1' className='block'>
+                      Course
+                    </label>
+                    <MultiSelect
+                      value={watch('course')}
+                      optionValue='label'
+                      className='w-full'
+                      options={courses}
+                      {...register('course', {
+                        required: 'Course is required',
+                      })}
+                      // optionLabel='name'
+                      placeholder='Select a course'
+                    />
+                    <p
+                      style={{ fontSize: '15px' }}
+                      className='mt-1 text-red-400'
+                    >
+                      {errors.course?.message}
+                    </p>
+                  </div>
                   <div className='mt-4 mb-2 sm:mb-4'>
                     <Button
                       style={{ width: '100%' }}
@@ -131,7 +167,7 @@ const Signup = () => {
                   </div>
                   <p className='text-xs text-gray-600 sm:text-sm text-center'>
                     Already have an account?{' '}
-                    <Link className='text-blue-700' to='/signin'>
+                    <Link className='text-blue-700' to='/'>
                       Sign In
                     </Link>
                   </p>
