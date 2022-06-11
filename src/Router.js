@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Tickets from "./Pages/Admin/Tickets";
 import Admin from "./Pages/Admin/User";
 import ChatwithMentor from "./Pages/Common/ChatwithMentor";
 import TicketTracking from "./Pages/Common/TrackingTicket";
@@ -12,6 +13,7 @@ function Router() {
       <BrowserRouter>
         <Routes>
           <Route path="/admin/users" element={<Admin />} />
+          <Route path="/admin/tickets" element={<Tickets />} />
           <Route path="/admin/tickettracking" element={<TicketTracking />} />
           <Route path="/user/chat" element={<ChatwithMentor />} />
           <Route path="/" element={<Signin />} />
