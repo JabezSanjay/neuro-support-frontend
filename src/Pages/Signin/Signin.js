@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { useForm } from 'react-hook-form';
@@ -6,6 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { signinUser } from './helper';
+import { Dropdown } from 'primereact/dropdown';
+import axios from '../../axiosConfig';
 
 const Signin = () => {
   const {
@@ -13,10 +15,19 @@ const Signin = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth.loading);
   const navigate = useNavigate();
+
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    axios.get('/read/courses').then((res) => {
+      setCourses(res.data);
+    });
+  }, []);
 
   const onSubmit = async (data) => {
     await signinUser(data, dispatch).then((response) => {
@@ -121,6 +132,7 @@ const Signin = () => {
                           {errors.password?.message}
                         </p>
                       </div>
+
                       <div className='mt-4 mb-2 sm:mb-4'>
                         <Button
                           style={{ width: '100%' }}
@@ -132,7 +144,7 @@ const Signin = () => {
                       </div>
                       <p className='text-xs text-gray-600 sm:text-sm'>
                         Dont have an account?
-                        <Link className='text-blue-700' to='/signin'>
+                        <Link className='text-blue-700' to='/signup'>
                           Sign Up
                         </Link>
                       </p>
