@@ -29,7 +29,7 @@ function Router() {
             <Route path='/admin/tickettracking' element={<TicketTracking />} />
           </Route>
           <Route element={<StudentRoute />}>
-            <Route path='/student/dashboard' element={<ChatwithMentor />} />
+            <Route path='/student/chat' element={<ChatwithMentor />} />
             <Route
               path='/student/tickettracking'
               element={<TicketTracking />}
@@ -37,6 +37,7 @@ function Router() {
           </Route>
           <Route element={<MentorRoute />}>
             <Route path='/mentor/dashboard' element={<Tickets />} />
+            <Route path='/mentor/chat' element={<ChatwithMentor />} />
           </Route>
         </Routes>
       </BrowserRouter>
