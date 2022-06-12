@@ -5,6 +5,13 @@ import Navbar from '../../Components/Navbar/Navbar';
 import socket, { connectingSocket } from '../../socket';
 import { getConnectedUser } from './helper';
 import { AvatarGenerator } from 'random-avatar-generator';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import { useForm } from 'react-hook-form';
+import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
+import axios from '../../axiosConfig';
+import { toast } from 'react-toastify';
 
 function ChatwithMentor() {
   const generator = new AvatarGenerator();
@@ -13,11 +20,11 @@ function ChatwithMentor() {
   const [connectedUser, setConnectedUser] = useState([]);
   const [chatUser, setChatUser] = useState({});
   const [reloadmesssage, setReloadmesssage] = useState(true);
+  const [modal, setModal] = useState(false);
   const userInfo = useSelector((state) => state.auth.userInfo);
   useEffect(() => {
     connectingSocket(userInfo);
     getConnectedUser().then((res) => {
-      console.log(res.data.data, 'the connected users');
       setConnectedUser(res.data.data);
       setChatUser(res.data.data[0]);
       socket.emit('retrieve-messages', {
@@ -30,6 +37,29 @@ function ChatwithMentor() {
       });
     });
   }, [userInfo]);
+
+  const [status] = useState([
+    { label: 'Pending', value: 'pending' },
+    { label: 'In Progress', value: 'in-progress' },
+    { label: 'Completed', value: 'completed' },
+  ]);
+
+  const [selectedStatus, setSelectedStatus] = useState({
+    status: '',
+    createdFor: '',
+  });
+
+  const courses = [
+    {
+      label: 'Web Development',
+    },
+    {
+      label: 'Mobile Development',
+    },
+    {
+      label: 'Data Science',
+    },
+  ];
 
   useEffect(() => {
     // console.log(userInfo)
@@ -73,6 +103,48 @@ function ChatwithMentor() {
       inline: 'nearest',
     });
   });
+  const [mentors, setMentors] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const getMentors = async () => {
+    await axios
+      .post('/mentor/read/course', {
+        course: watch('course'),
+      })
+      .then((res) => {
+        setMentors(res.data.data);
+      });
+  };
+
+  useEffect(() => {
+    getMentors();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watch('course')]);
+
+  const onSubmit = async (data) => {
+    // reset();
+    data.createdFor = chatUser.socketId;
+    setLoading(true);
+    await axios.post('/mentor/create/ticket', data).then((res) => {
+      if (res.data.success) {
+        toast.success(res.data.message);
+        setLoading(false);
+        setModal(false);
+        reset();
+      } else {
+        toast.error(res.data.message);
+        setLoading(false);
+      }
+    });
+  };
 
   return (
     <div className='h-screen'>
@@ -113,11 +185,13 @@ function ChatwithMentor() {
                   <li>
                     {connectedUser.map((user) => {
                       return (
-                        <a
+                        <div
                           onClick={() => {
                             onUserSelect(user);
                           }}
-                          className='flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none'
+                          className={`flex items-center px-3 py-2 ${
+                            chatUser._id === user._id ? 'bg-gray-100' : ''
+                          } text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none`}
                         >
                           <img
                             className='object-cover w-10 h-10 rounded-full'
@@ -129,15 +203,9 @@ function ChatwithMentor() {
                               <span className='block ml-2 font-semibold text-gray-600'>
                                 {user.name}
                               </span>
-                              {/* <span className="block ml-2 text-sm text-gray-600">
-                                25 minutes
-                              </span> */}
                             </div>
-                            {/* <span className="block ml-2 text-sm text-gray-600">
-                              bye
-                            </span> */}
                           </div>
-                        </a>
+                        </div>
                       );
                     })}
                   </li>
@@ -146,15 +214,34 @@ function ChatwithMentor() {
               <div className='hidden lg:col-span-2 lg:block'>
                 <div className='w-full'>
                   <div className='relative flex items-center p-3 border-b border-gray-300'>
-                    <img
-                      className='object-cover w-10 h-10 rounded-full'
-                      src={generator.generateRandomAvatar('avatar')}
-                      alt='username'
-                    />
-                    <span className='block ml-2 font-bold text-gray-600'>
-                      {chatUser.name}
-                    </span>
-                    <span className='absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3'></span>
+                    <div className='flex justify-between  items-center w-full'>
+                      <div className='flex justify-center items-center'>
+                        <img
+                          className='object-cover w-10 h-10 rounded-full'
+                          src={generator.generateRandomAvatar('avatar')}
+                          alt='username'
+                        />
+                        <span className='block ml-2 font-bold text-gray-600'>
+                          {chatUser.name}
+                        </span>
+                        <span className='absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3'></span>
+                      </div>
+                      <div className='items-center mr-4'>
+                        {
+                          //find the index of the user in the connectedUser array
+                          chatUser.role === 'student' && (
+                            <Button
+                              className='bg-gray-100'
+                              onClick={() => {
+                                setModal(true);
+                              }}
+                            >
+                              Create Ticket
+                            </Button>
+                          )
+                        }
+                      </div>
+                    </div>
                   </div>
                   <div className='relative w-full p-6 overflow-y-auto h-[40rem]'>
                     <ul className='space-y-2' ref={divRef}>
@@ -222,6 +309,94 @@ function ChatwithMentor() {
             </div>
           </div>
         </div>
+        <Dialog
+          header='Create Ticket'
+          visible={modal}
+          style={{ width: '30vw' }}
+          onHide={() => setModal(false)}
+        >
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className='mb-1 sm:mb-2'>
+              <label htmlFor='username1' className='block'>
+                Content
+              </label>
+              <InputText
+                // id="username1"
+                {...register('content', {
+                  required: 'Content is required',
+                })}
+                aria-describedby='username1-help'
+                className='block w-full '
+              />
+              <p style={{ fontSize: '15px' }} className='mt-1 text-red-400'>
+                {errors.content?.message}
+              </p>
+            </div>
+            <div className='mb-1 sm:mb-2'>
+              <label htmlFor='username1' className='block'>
+                Created For
+              </label>
+              <InputText
+                // id="username1"
+
+                value={chatUser.name}
+                aria-describedby='username1-help'
+                className='block w-full'
+                disabled
+              />
+            </div>
+            <p style={{ fontSize: '15px' }} className='mt-1 text-red-400'>
+              {errors.createdFor?.message}
+            </p>
+            <div className='mb-1 sm:mb-2'>
+              <label className='block'>Course</label>
+              <Dropdown
+                value={watch('course')}
+                optionValue='label'
+                className='w-full'
+                options={courses}
+                {...register('course', {
+                  required: 'Course is required',
+                })}
+                optionLabel='label'
+                placeholder='Select a course'
+              />
+              <p style={{ fontSize: '15px' }} className='mt-1 text-red-400'>
+                {errors.course?.message}
+              </p>
+            </div>
+            <div className='mb-1 sm:mb-3'>
+              <label htmlFor='username1' className='block'>
+                Assignee Mentor
+              </label>
+              <Dropdown
+                value={watch('mentor')}
+                optionValue='socketId'
+                className='w-full'
+                options={mentors}
+                {...register('mentor', {
+                  required: 'Mentor is required',
+                })}
+                optionLabel='name'
+                placeholder='Select a mentor'
+              />
+              <p style={{ fontSize: '15px' }} className='mt-1 text-red-400'>
+                {errors.mentor?.message}
+              </p>
+            </div>
+
+            <div>
+              <Button
+                style={{ height: '45px' }}
+                label='Create Ticket'
+                // icon="pi pi-plus"
+                className='p-button w-full'
+                type='submit'
+                loading={loading}
+              />
+            </div>
+          </form>
+        </Dialog>
       </AppSideNavbar>
     </div>
   );
