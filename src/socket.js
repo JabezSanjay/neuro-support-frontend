@@ -1,20 +1,20 @@
-import { io } from 'socket.io-client'
+import { io } from 'socket.io-client';
 
-const URL = 'http://localhost:3000'
-const socket = io(URL, { autoConnect: false })
+const URL = 'https://neuro-support.herokuapp.com/';
+const socket = io(URL, { autoConnect: false });
 
 socket.onAny((event, ...args) => {
-  console.log(event, args)
-})
+  console.log(event, args);
+});
 
 export const connectingSocket = (user) => {
   socket.auth = {
     id: user?.socketId,
-  }
-  console.log(socket.auth, 'this is auth')
+  };
+  console.log(socket.auth, 'this is auth');
   // socket.connectedUsers = {};
   // socket.auth = {id: res.user?.socketId};
-  socket.connect()
-}
+  socket.connect();
+};
 
-export default socket
+export default socket;
