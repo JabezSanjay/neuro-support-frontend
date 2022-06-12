@@ -1,11 +1,6 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import {
-  RiDashboardLine,
-  RiMenuUnfoldLine,
-  RiProfileLine,
-  RiTaskLine,
-} from 'react-icons/ri';
+import { RiDashboardLine, RiProfileLine } from 'react-icons/ri';
 import useCollapse from 'react-collapsed';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -109,20 +104,60 @@ const AppSideNavbar = ({ children }) => {
         </a>
 
         <nav>
-          <Link
-            to='/student/tickettracking'
-            className={`flex items-center py-4 px-4 rounded transition duration-200 hover:bg-indigo-700 hover:text-white mb-2`}
-          >
-            <RiDashboardLine size={25} className='mr-3' />
-            Ticket Tracking
-          </Link>
-          <Link
-            to='/user/chat'
-            className={`flex items-center py-4 px-4 rounded transition duration-200 hover:bg-indigo-700 hover:text-white mb-2`}
-          >
-            <RiProfileLine size={25} className='mr-3' />
-            Chat with Mentor
-          </Link>
+          {userInfo.role === 'mentor' && (
+            <>
+              <Link
+                to='/mentor/dashboard'
+                className={`flex items-center py-4 px-4 rounded transition duration-200 hover:bg-indigo-700 hover:text-white mb-2`}
+              >
+                <RiDashboardLine size={25} className='mr-3' />
+                Ticket Tracking
+              </Link>
+              <Link
+                to='/mentor/chat'
+                className={`flex items-center py-4 px-4 rounded transition duration-200 hover:bg-indigo-700 hover:text-white mb-2`}
+              >
+                <RiProfileLine size={25} className='mr-3' />
+                Chat with Student
+              </Link>
+            </>
+          )}
+          {userInfo.role === 'student' && (
+            <>
+              <Link
+                to='/student/tickettracking'
+                className={`flex items-center py-4 px-4 rounded transition duration-200 hover:bg-indigo-700 hover:text-white mb-2`}
+              >
+                <RiDashboardLine size={25} className='mr-3' />
+                Ticket Tracking
+              </Link>
+              <Link
+                to='/student/chat'
+                className={`flex items-center py-4 px-4 rounded transition duration-200 hover:bg-indigo-700 hover:text-white mb-2`}
+              >
+                <RiProfileLine size={25} className='mr-3' />
+                Chat with Mentor
+              </Link>
+            </>
+          )}
+          {userInfo.role === 'admin' && (
+            <>
+              <Link
+                to='/admin/dashboard'
+                className={`flex items-center py-4 px-4 rounded transition duration-200 hover:bg-indigo-700 hover:text-white mb-2`}
+              >
+                <RiDashboardLine size={25} className='mr-3' />
+                Add User
+              </Link>
+              <Link
+                to='/admin/tickettracking'
+                className={`flex items-center py-4 px-4 rounded transition duration-200 hover:bg-indigo-700 hover:text-white mb-2`}
+              >
+                <RiProfileLine size={25} className='mr-3' />
+                Ticket Tracking
+              </Link>
+            </>
+          )}
         </nav>
       </div>
       <div className='flex-1'>{children}</div>
