@@ -1,70 +1,129 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Neuro Query Support
 
-## Available Scripts
+This is a real time chat support where students can discuss their doubts with mentors.
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- User authentication
+- Real time chat support with mentors using Socket.io
+- Ticket tracker generated for unresolved queires
+- View active unresolved queries
+- Students can ask for updates in real time
+- History of queires
+- Mentors can generate ticket and assign other mentors to resolve students queries
+- Mentors can change the status of the query
+- Admin pages to track queires, users.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Tech Stack
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Client:** React, Redux, TailwindCSS, Prime React,
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Server:** Node, Express, MongoDB
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+## Git branching Technique
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![App Screenshot](https://i.ibb.co/4g8BxfJ/Screenshot-2022-06-12-at-11-12-01-AM.png)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Git Production Deployment Technique
 
-### Making a Progressive Web App
+![App Screenshot](https://i.ibb.co/k99f258/Screenshot-2022-06-12-at-11-18-17-AM.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## Installation Frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Install project with npm
 
-### `npm run build` fails to minify
+```bash
+  npm install neuro-support-frontend
+  cd neuro-support-frontend
+  npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Installation Backend
+
+Install project with npm
+
+```bash
+  npm install neuro-support-backend
+  cd neuro-support-backend
+  npm run develop
+```
+
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your backend .env file
+
+`COOKIE_KEY`
+
+`COOKIE_EXPIRE`
+
+`JWT_SECRET`
+
+`JWT_EXPIRY`
+
+`DATABASE`
+
+`SMTP_HOST`
+
+`SMTP_PORT`
+
+`SMTP_USER`
+
+`SMTP_PASS`
+## Feedback
+
+If you have any feedback, please reach out to us at jabezsanjayb@gmail.com, muthuramkc2000@gmail.com, rishikeshtbr@gmail.com
+
+
+
+
+## Authors
+
+- [@jabezsanjay](https://github.com/JabezSanjay)
+- [@Rishikeshtbr](https://github.com/Rishikeshtbr)
+- [@Muthuram29](https://github.com/Muthuramkc29)
+
+
+## License
+
+MIT License
+
+Copyright (c) 2022
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
