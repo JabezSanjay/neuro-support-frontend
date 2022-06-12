@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-const URL = 'https://neuro-support.herokuapp.com/';
+const URL = 'https://neuro-support-backend.vercel.app';
 const socket = io(URL, { autoConnect: false });
 
 socket.onAny((event, ...args) => {
