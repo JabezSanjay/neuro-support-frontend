@@ -8,11 +8,11 @@ import { Dropdown } from 'primereact/dropdown';
 import axios from '../../axiosConfig';
 import { toast } from 'react-toastify';
 
-const MentorTicketTable = () => {
+const AppAdminTable = () => {
   const [tickets, setTickets] = useState([]);
   const readTickets = async () => {
     setLoading(true);
-    await axios.get('/mentor/read/ticket').then((res) => {
+    await axios.get('/admin/read/ticket').then((res) => {
       if (res.data.success) {
         setTickets(res.data.data);
       } else {
@@ -45,23 +45,6 @@ const MentorTicketTable = () => {
     return (
       <div className='flex justify-between items-center mt-3 flex-wrap'>
         <h5 className='m-0 mb-6'>Tickets</h5>
-      </div>
-    );
-  };
-
-  const ActionTemplate = (rowData) => {
-    return (
-      <div>
-        <Button
-          icon='pi pi-pencil'
-          className='p-button-rounded p-button-outlined'
-          aria-label='Submit'
-          onClick={() => {
-            setSelectedTicket(rowData);
-
-            setModal(true);
-          }}
-        />
       </div>
     );
   };
@@ -107,12 +90,6 @@ const MentorTicketTable = () => {
             sortable
             style={{ minWidth: '14rem' }}
           />
-          <Column
-            header='Actions'
-            sortable
-            style={{ minWidth: '14rem' }}
-            body={ActionTemplate}
-          />
         </DataTable>
       </div>
       <Dialog
@@ -145,4 +122,4 @@ const MentorTicketTable = () => {
   );
 };
 
-export default MentorTicketTable;
+export default AppAdminTable;

@@ -3,16 +3,14 @@ import { FilterMatchMode } from 'primereact/api';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
-import { Dropdown } from 'primereact/dropdown';
 import axios from '../../axiosConfig';
 import { toast } from 'react-toastify';
 
-const MentorTicketTable = () => {
+const StudentTicketTable = () => {
   const [tickets, setTickets] = useState([]);
   const readTickets = async () => {
     setLoading(true);
-    await axios.get('/mentor/read/ticket').then((res) => {
+    await axios.get('/student/read/ticket').then((res) => {
       if (res.data.success) {
         setTickets(res.data.data);
       } else {
@@ -25,17 +23,9 @@ const MentorTicketTable = () => {
   const [filters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
-  const [status] = useState([
-    { label: 'Pending', value: 'pending' },
-    { label: 'In Progress', value: 'in-progress' },
-    { label: 'Completed', value: 'completed' },
-  ]);
 
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
-  const [state, setState] = useState('');
-
-  const [selectedTicket, setSelectedTicket] = useState(null);
 
   useEffect(() => {
     readTickets();
@@ -53,15 +43,26 @@ const MentorTicketTable = () => {
     return (
       <div>
         <Button
-          icon='pi pi-pencil'
-          className='p-button-rounded p-button-outlined'
+          className='p-button-outlined'
           aria-label='Submit'
-          onClick={() => {
-            setSelectedTicket(rowData);
-
-            setModal(true);
+          onClick={async () => {
+            setLoading(true);
+            await axios
+              .post('/student/ask/update', {
+                ticket: rowData,
+              })
+              .then((res) => {
+                if (res.data.success) {
+                  toast.success(res.data.message);
+                } else {
+                  toast.error(res.data.message);
+                }
+              });
+            setLoading(false);
           }}
-        />
+        >
+          Ask for update
+        </Button>
       </div>
     );
   };
@@ -69,7 +70,7 @@ const MentorTicketTable = () => {
   const header = renderHeader();
 
   return (
-    <div className='datatable-doc-demo mt-10'>
+    <div className='datatable-doc-demo mt-2 p-20'>
       <div className='card'>
         <DataTable
           value={tickets}
@@ -115,34 +116,8 @@ const MentorTicketTable = () => {
           />
         </DataTable>
       </div>
-      <Dialog
-        header='Change Status'
-        visible={modal}
-        style={{ width: '30vw' }}
-        onHide={() => {
-          setModal(false);
-          setSelectedTicket(null);
-        }}
-      >
-        <Dropdown
-          value={state}
-          optionValue='value'
-          className='w-full'
-          options={status}
-          onChange={async (e) => {
-            setState(e.target.value);
-            await axios.post('/mentor/change/status/ticket', {
-              status: e.target.value,
-              createdFor: selectedTicket.createdFor,
-            });
-            setModal(false);
-          }}
-          optionLabel='label'
-          placeholder='Select a role'
-        />
-      </Dialog>
     </div>
   );
 };
 
-export default MentorTicketTable;
+export default StudentTicketTable;

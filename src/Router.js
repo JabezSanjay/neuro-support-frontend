@@ -15,7 +15,7 @@ import TicketTracking from './Pages/Common/TrackingTicket';
 import Signin from './Pages/Signin/Signin';
 import Signup from './Pages/Signup/Signup';
 import StudentDashboard from './Components/StudentDashboard/StudentDashboard';
-import Tickets from './Pages/Mentor/Tickets';
+import Tickets from './Pages/Admin/Tickets';
 
 function Router() {
   return (
@@ -26,7 +26,7 @@ function Router() {
           <Route path='/signup' element={<Signup />} />
           <Route element={<AdminRoute />}>
             <Route path='/admin/dashboard' element={<Admin />} />
-            <Route path='/admin/tickettracking' element={<TicketTracking />} />
+            <Route path='/admin/tickettracking' element={<Tickets />} />
           </Route>
           <Route element={<StudentRoute />}>
             <Route path='/student/chat' element={<ChatwithMentor />} />

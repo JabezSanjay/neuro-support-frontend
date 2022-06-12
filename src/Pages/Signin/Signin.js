@@ -15,7 +15,6 @@ const Signin = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
   } = useForm();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth.loading);
@@ -37,7 +36,13 @@ const Signin = () => {
         connectingSocket(response.data);
         toast.success('User signin successful!');
         reset();
-        navigate(`${response.data.role}/dashboard`);
+        if (response.data.role === 'student') {
+          navigate('/student/chat');
+        } else if (response.data.role === 'mentor') {
+          navigate('/mentor/dashboard');
+        } else if (response.data.role === 'admin') {
+          navigate('/admin/dashboard');
+        }
       }
     });
   };
